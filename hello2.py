@@ -17,14 +17,23 @@ def judge_last_char(word, used_word_list):
     else:
         return False
 
-
-
+#直す
+def correct(input_word):
+    last_word = input_word[-1]
+    fail_list = ["ー","）"]
+    mini_dict = {"ゃ":"や", "ゅ":"ゆ" , "ょ":"よ"  , "ぁ":"あ" , "ぃ":"い" , "ぅ":"う" , "ぇ":"え" , "ぉ":"お"}
+    if last_word in fail_list:
+        last_word = input_word[-2]
+    if last_word in mini_dict.keys() :
+        last_word = mini_dict[last_word]
+    return last_word
 
 
 # コンピューターのプレイ
 def type_by_computer(input_word, used_word_list):
+    last_word = correct(input_word)
     for com_word in word_dict.keys():
-        if input_word[-1] == com_word[0] and judge_last_char(com_word, used_word_list):
+        if last_word == com_word[0] and judge_last_char(com_word, used_word_list):
             used_word_list.append(com_word)
             return com_word, used_word_list
     return "", used_word_list
@@ -32,11 +41,8 @@ def type_by_computer(input_word, used_word_list):
 
 # ユーザーのプレイ
 def type_by_user(input_word, used_word_list):
-    last_word = input_word[-1]
-    if last_word == "ー":
-        last_word = input_word[-2]
-    elif last_word == "ゃ" or "ゅ" or "ょ" or "ぁ" or "ぃ" or "ぅ" or "ぇ" or "ぉ" :
-        last_word.upper()
+    last_word = correct(input_word)
+
     user_word = input(f"「{last_word}」からはじまることばを入力してください：")
 
     if last_word == user_word[0] and judge_last_char(user_word, used_word_list):
