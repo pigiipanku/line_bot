@@ -26,8 +26,8 @@ def siritori(a,count) :
         return "私の負けです"
 
 if __name__ == "__main__":
-        input_word = input("ひらがなで入力してください：")
-        library_word = siritori(input_word,0)
+        input_word = input("：")
+        library_word = siritori(input_word,0ひらがなで入力してください)
         cnt = 3
         while library_word != "私の負けです" :
             library_last_word = library_word[-1]
