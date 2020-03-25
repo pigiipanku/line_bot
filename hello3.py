@@ -1,8 +1,8 @@
 import pandas as pd
+import random
 
 
 class Shiritori():
-
     word_dict = {}
     used_words = []
 
@@ -22,7 +22,8 @@ class Shiritori():
         # word_csvをいい感じに読み込む
         word_dict = {}
         for index, row in word_csv.iterrows():
-            word_dict[row[3]] = row[2]
+            if row[4] == "名詞":
+                word_dict[row[3]] = row[2]
         return word_dict
 
     # 最後が「ん」もしくはすでに使っていたワードだったらアウト
@@ -32,20 +33,44 @@ class Shiritori():
         else:
             return False
 
+    # 修正する
+    @staticmethod
+    def correct(input_word):
+        last_chr = input_word[-1]
+        fail_list = ["ー", "）"]
+        mini_dict = {"ゃ": "や", "ゅ": "ゆ", "ょ": "よ", "ぁ": "あ", "ぃ": "い", "ぅ": "う", "ぇ": "え", "ぉ": "お"}
+        if last_chr in fail_list:
+            last_chr = input_word[-2]
+        if last_chr in mini_dict.keys():
+            last_chr = mini_dict[last_chr]
+        return last_chr
+
     # コンピューターのプレイ
     def type_by_computer(self):
+        com_words = []
+        last_chr = self.correct(self.user_word)
         for com_word in self.word_dict.keys():
-            if self.user_word[-1] == com_word[0] and self.judge_last_char(com_word):
-                self.com_word = com_word
-                self.used_words.append(com_word)
-                break
+            if last_chr == com_word[0] and self.judge_last_char(com_word):
+                com_words.append(com_word)
+
+        if com_words:
+            com_random_word = random.choice(com_words)
+            self.com_word = com_random_word
+            self.used_words.append(com_random_word)
         else:
             self.com_word = ""
 
     # ユーザーのプレイ
     def type_by_user(self):
-        user_word = input(f"「{self.com_word[-1]}」からはじまることばを入力してください：")
-        if self.com_word[-1] == user_word[0] and self.judge_last_char(user_word):
+        last_chr = self.correct(self.com_word)
+
+        while True:
+            user_word = input(f"「{last_chr}」からはじまることばを入力してください：")
+            if user_word != "":
+                if user_word[0] == last_chr :
+                    break
+
+        if last_chr == user_word[0] and self.judge_last_char(user_word):
             self.user_word = user_word
             self.used_words.append(user_word)
         else:
