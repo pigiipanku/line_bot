@@ -16,6 +16,8 @@ from linebot.models import (
 
 app = Flask(__name__)
 
+shiritoris = {"yutaro": Shiritori(i)}
+
 #環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
@@ -105,10 +107,16 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
+    profile = line_bot_api.get_profile(event.source.user_id)
+
+    if アカウント名 in shiritoris:
+        shiritori = shiritoris[あくんと名]
+    else:
+        shiritoris.pop(あくんと名)
     shiritori = Shiritori(user_word=event.message.text, used_words=[])
     shiritori.type_by_computer()
 
-    response_text = ""
+    response_text = f"{profile.display_name}\n"
     if shiritori.com_word != "":
         response_text = shiritori.com_word
     else:
