@@ -118,9 +118,9 @@ def handle_message(event):
 
     response_text = f"{profile.display_name}\n"
     if shiritori.com_word != "":
-        response_text = shiritori.com_word
+        response_text += shiritori.com_word
     else:
-        response_text = "YOU WIN!"
+        response_text += "YOU WIN!"
 
     line_bot_api.reply_message(
         event.reply_token,
