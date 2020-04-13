@@ -129,14 +129,17 @@ def handle_message(event):
         shiritori = Shiritori(user_word=event.message.text)
         shiritoris[profile.display_name] = shiritori
 
-    if shiritori == "":
-        response_text = "You　Lose"
+    if shiritori.user_word == "":
+        response_text = "YOU LOSE!!!!!"
     else:
         shiritori.type_by_computer()
         if shiritori.com_word != "":
             response_text = shiritori.com_word
         else:
             response_text = "YOU WIN!"
+
+    if response_text in ["YOU LOSE!!!!!", "YOU WIN!"]:
+        del shiritoris[profile.display_name]
 
     line_bot_api.reply_message(
         event.reply_token,
