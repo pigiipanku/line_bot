@@ -1,9 +1,9 @@
-from flask import Flask, request, abort
 import os
-
-import pandas as pd
 import random
 
+import jaconv
+import pandas as pd
+from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -62,6 +62,7 @@ class Shiritori():
     # 修正する
     @staticmethod
     def correct(input_word):
+        input_word = jaconv.kata2hira(input_word)
         last_chr = input_word[-1]
         fail_list = ["ー", "）"]
         mini_dict = {"ゃ": "や", "ゅ": "ゆ", "ょ": "よ", "ぁ": "あ", "ぃ": "い", "ぅ": "う", "ぇ": "え", "ぉ": "お"}
