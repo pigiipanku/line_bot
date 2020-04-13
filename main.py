@@ -138,7 +138,7 @@ def handle_message(event):
             com_last_char = Shiritori.correct(shiritori.com_word)
             response_text = f"{shiritori.com_word}\n「{com_last_char}」から始まる言葉で入力するのよ。"
         else:
-            response_text = "や、やるじゃない..."
+            response_text = "や、やるじゃない...あなたの勝ちよ。"
 
 
 
