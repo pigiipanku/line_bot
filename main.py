@@ -131,18 +131,18 @@ def handle_message(event):
         shiritoris[profile.display_name] = shiritori
 
     if shiritori.user_word == "":
-        response_text = "YOU LOSE!!!!!"
+        response_text = "あなた弱いのね。私の勝ち☆"
     else:
         shiritori.type_by_computer()
         if shiritori.com_word != "":
             com_last_char = Shiritori.correct(shiritori.com_word)
-            response_text = f"{shiritori.com_word}\n「{com_last_char}」から始まる言葉を入力してください。"
+            response_text = f"{shiritori.com_word}\n「{com_last_char}」から始まる言葉で入力するのよ。"
         else:
-            response_text = "YOU WIN!"
+            response_text = "や、やるじゃない..."
 
 
 
-    if response_text in ["YOU LOSE!!!!!", "YOU WIN!"]:
+    if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない..."]:
         del shiritoris[profile.display_name]
 
     line_bot_api.reply_message(
