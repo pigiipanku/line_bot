@@ -136,7 +136,7 @@ def handle_message(event):
         shiritori.type_by_computer()
         if shiritori.com_word != "":
             com_last_char = Shiritori.correct(shiritori.com_word)
-            response_text = f"{shiritori.com_word}\n{com_last_char}」から始まる言葉を入力してください。"
+            response_text = f"{shiritori.com_word}\n「{com_last_char}」から始まる言葉を入力してください。"
         else:
             response_text = "YOU WIN!"
 
