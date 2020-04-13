@@ -18,12 +18,15 @@ app = Flask(__name__)
 
 # shiritoris = {"yutaro": Shiritori(i)}
 
-#環境変数取得
+# 環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+
+shiritoris = {}
+
 
 class Shiritori():
     word_dict = {}
@@ -32,10 +35,11 @@ class Shiritori():
     com_word = ""
     user_word = ""
 
-    def __init__(self, user_word, used_words):
+    def __init__(self, user_word):
+
         self.word_dict = self.create_word_dict()
         self.user_word = user_word
-        self.used_words = used_words
+        self.used_words.append(user_word)
 
     @staticmethod
     def create_word_dict():
@@ -82,10 +86,20 @@ class Shiritori():
         else:
             self.com_word = ""
 
+    # ユーザーのプレイ
+    def type_by_user(self, user_word):
+        last_chr = self.correct(self.com_word)
+        if last_chr == user_word[0] and self.judge_last_char(user_word):
+            self.user_word = user_word
+            self.used_words.append(user_word)
+        else:
+            self.user_word = ""
+
 
 @app.route("/")
 def hello_world():
     return "hello world!"
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -104,29 +118,32 @@ def callback():
 
     return 'OK'
 
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-
     profile = line_bot_api.get_profile(event.source.user_id)
-
-    # if アカウント名 in shiritoris:
-    #     shiritori = shiritoris[あくんと名]
-    # else:
-    #     shiritoris.pop(あくんと名)
-    shiritori = Shiritori(user_word=event.message.text, used_words=[])
-    shiritori.type_by_computer()
-
-    response_text = f"{profile.display_name}\n"
-    if shiritori.com_word != "":
-        response_text += shiritori.com_word
+    if profile.display_name in shiritoris:
+        shiritori = shiritoris[profile.display_name]
+        shiritori.type_by_user(user_word=event.message.text)
     else:
-        response_text += "YOU WIN!"
+        shiritori = Shiritori(user_word=event.message.text)
+        shiritoris[profile.display_name] = shiritori
+
+    if shiritori == "":
+        response_text = "You　Lose"
+    else:
+        shiritori.type_by_computer()
+        if shiritori.com_word != "":
+            response_text = shiritori.com_word
+        else:
+            response_text = "YOU WIN!"
 
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response_text))
 
+
 if __name__ == "__main__":
-#    app.run()
+    #    app.run()
     port = int(os.getenv("PORT"))
     app.run(host="0.0.0.0", port=port)
