@@ -139,6 +139,9 @@ def handle_message(event):
         else:
             response_text = "YOU WIN!"
 
+    com_last_char = Shiritori.correct(shiritori.com_word)
+    response_text += f"「{com_last_char}」から始まる言葉を入力してください。"
+
     if response_text in ["YOU LOSE!!!!!", "YOU WIN!"]:
         del shiritoris[profile.display_name]
 
