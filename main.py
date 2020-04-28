@@ -1,6 +1,7 @@
 import os
 import random
 
+import json
 import jaconv
 import pandas as pd
 from flask import Flask, request, abort
@@ -26,6 +27,8 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 shiritoris = {}
+json_open = open('true_word_dict.json', 'r')
+word_dict_2 = json.load(json_open)
 
 
 class Shiritori():
@@ -37,7 +40,6 @@ class Shiritori():
 
     def __init__(self, user_word):
 
-        self.word_dict = self.create_word_dict()
         self.user_word = user_word
         self.used_words.append(user_word)
 
@@ -76,7 +78,7 @@ class Shiritori():
     def type_by_computer(self):
         com_words = []
         last_chr = self.correct(self.user_word)
-        for com_word in self.word_dict.keys():
+        for com_word in word_dict_2.values():
             if last_chr == com_word[0] and self.judge_last_char(com_word):
                 com_words.append(com_word)
 
