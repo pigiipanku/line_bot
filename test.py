@@ -55,6 +55,7 @@ class Shiritori():
 
     # 最後が「ん」もしくはすでに使っていたワードだったらアウト
     def judge_last_char(self, word):
+        word = jaconv.kata2hira(word)
         if word[-1] != "ん" and (word not in self.used_words):
             return True
         else:
@@ -90,7 +91,7 @@ class Shiritori():
 
     # ユーザーのプレイ
     def type_by_user(self, user_word):
-        user_word = jaconv.kata2hira(user_word)
+        self.user_word = jaconv.kata2hira(user_word)
         last_chr = self.correct(self.com_word)
         if last_chr == user_word[0] and self.judge_last_char(user_word):
             self.user_word = user_word
