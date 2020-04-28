@@ -30,7 +30,6 @@ shiritoris = {}
 json_open = open('true_word_dict.json', 'r')
 word_dict_2 = json.load(json_open)
 
-
 class Shiritori():
     word_dict = {}
     used_words = []
