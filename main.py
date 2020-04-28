@@ -144,7 +144,7 @@ def handle_message(event):
 
 
 
-    if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない..."]:
+    if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
         del shiritoris[profile.display_name]
 
     line_bot_api.reply_message(
