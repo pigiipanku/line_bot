@@ -79,7 +79,7 @@ class Shiritori():
     def type_by_computer(self):
         com_words = []
         last_chr = self.correct(self.user_word)
-        for com_word in word_dict_3.values():
+        for com_word in word_dict_3.keys():
             if last_chr == com_word[0] and self.judge_last_char(com_word):
                 com_words.append(com_word)
 
