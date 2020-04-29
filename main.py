@@ -31,6 +31,12 @@ json_open = open('true_word_dict2.json', 'r')
 word_dict_2 = json.load(json_open)
 json_open_2 = open("new_dict_2.json", "r")
 word_dict_3 = json.load(json_open_2)
+alpha_list = ["Ａ","Ｂ","Ｃ","Ｄ","Ｅ","Ｆ","Ｇ","Ｈ","Ｉ","Ｊ","Ｋ","Ｌ","Ｍ","Ｎ","Ｏ","Ｐ","Ｑ",
+              "Ｒ","Ｓ","Ｔ","Ｕ","Ｖ","Ｗ","Ｘ","Ｙ","Ｚ","ａ","ｂ","ｃ","ｄ","ｅ","ｆ","ｇ","ｈ",
+              "ｉ","ｊ","ｋ","ｌ","ｍ","ｎ","ｏ","ｐ","ｑ","ｒ","ｓ","ｔ","ｕ","ｖ","ｗ","ｘ","ｙ","ｚ",
+              "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V"
+              ,"W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s"
+              ,"t","u","v","w","x","y","z"]
 
 class Shiritori():
     word_dict = {}
@@ -57,7 +63,10 @@ class Shiritori():
 
     # 最後が「ん」もしくはすでに使っていたワードだったらアウト
     def judge_last_char(self, word):
-        if word[-1] != "ん" and (word not in self.used_words):
+        if word[-1] != "ん" and (word not in self.used_words) :
+            for i in list(word) :
+                if i in alpha_list :
+                    return False
             return True
         else:
             return False
