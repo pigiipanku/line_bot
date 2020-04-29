@@ -29,7 +29,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 shiritoris = {}
 json_open = open('true_word_dict2.json', 'r')
 word_dict_2 = json.load(json_open)
-json_open_2 = open("new_dict.json", "r")
+json_open_2 = open("new_dict_2.json", "r")
 word_dict_3 = json.load(json_open_2)
 
 class Shiritori():
