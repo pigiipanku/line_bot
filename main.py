@@ -79,7 +79,7 @@ class Shiritori():
     def type_by_computer(self):
         com_words = []
         last_chr = self.correct(self.user_word)
-        for com_word in word_dict_3.keys():
+        for com_word in word_dict_3.values():
             if last_chr == com_word[0] and self.judge_last_char(com_word):
                 com_words.append(com_word)
 
@@ -140,7 +140,7 @@ def handle_message(event):
         shiritori.type_by_computer()
         if shiritori.com_word != "":
             com_last_char = Shiritori.correct(shiritori.com_word)
-            response_text = f"{shiritori.com_word}\n「{com_last_char}」から始まる言葉で入力するのよ。"
+            response_text = f"{word_dict_3[shiritori.com_word]}({shiritori.com_word})\n「{com_last_char}」から始まる言葉で入力するのよ。"
         else:
             response_text = "や、やるじゃない...あなたの勝ちよ。"
 
