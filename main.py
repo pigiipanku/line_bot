@@ -143,10 +143,6 @@ def handle_message(event):
         shiritori = Shiritori(user_word=event.message.text)
         shiritoris[profile.display_name] = shiritori
 
-    response_text = ""
-
-    for i in shiritori.used_words :
-        response_text += i
 
     if shiritori.user_word == "":
         response_text = "あなた弱いのね。私の勝ち☆"
@@ -162,6 +158,9 @@ def handle_message(event):
 
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
         del shiritoris[profile.display_name]
+
+    for i in shiritori.used_words :
+        response_text += i
 
     line_bot_api.reply_message(
         event.reply_token,
