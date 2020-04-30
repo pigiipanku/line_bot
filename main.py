@@ -143,6 +143,11 @@ def handle_message(event):
         shiritori = Shiritori(user_word=event.message.text)
         shiritoris[profile.display_name] = shiritori
 
+    response_text = ""
+
+    for i in shiritori.used_words :
+        response_text += i
+
     if shiritori.user_word == "":
         response_text = "あなた弱いのね。私の勝ち☆"
     else:
