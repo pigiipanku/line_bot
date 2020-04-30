@@ -160,7 +160,8 @@ def handle_message(event):
         del shiritoris[profile.display_name]
 
     for i in shiritori.used_words :
-        response_text +=  i + ","
+        response_text +=  i
+        response_text += ","
 
     line_bot_api.reply_message(
         event.reply_token,
