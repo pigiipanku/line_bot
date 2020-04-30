@@ -159,7 +159,7 @@ def handle_message(event):
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
         del shiritoris[profile.display_name]
 
-    for i in shiritori.used_words :
+    for i in shiritori.keys() :
         response_text +=  i
         response_text += ","
 
