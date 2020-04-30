@@ -27,8 +27,8 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 shiritoris = {}
-json_open = open('true_word_dict2.json', 'r')
-word_dict_2 = json.load(json_open)
+#json_open = open('true_word_dict2.json', 'r')
+#word_dict_2 = json.load(json_open)
 json_open_2 = open("new_dict_2.json", "r")
 word_dict_3 = json.load(json_open_2)
 alpha_list = ["Ａ","Ｂ","Ｃ","Ｄ","Ｅ","Ｆ","Ｇ","Ｈ","Ｉ","Ｊ","Ｋ","Ｌ","Ｍ","Ｎ","Ｏ","Ｐ","Ｑ",
