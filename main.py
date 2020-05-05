@@ -1,7 +1,8 @@
 import os
 import random
-
 import json
+import pickle
+
 import jaconv
 import pandas as pd
 from flask import Flask, request, abort
@@ -17,7 +18,6 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-# shiritoris = {"yutaro": Shiritori(i)}
 
 # 環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
@@ -26,9 +26,7 @@ YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-shiritoris = {}
-#json_open = open('true_word_dict2.json', 'r')
-#word_dict_2 = json.load(json_open)
+
 json_open_2 = open("new_dict_2.json", "r")
 word_dict_3 = json.load(json_open_2)
 alpha_list = ["Ａ","Ｂ","Ｃ","Ｄ","Ｅ","Ｆ","Ｇ","Ｈ","Ｉ","Ｊ","Ｋ","Ｌ","Ｍ","Ｎ","Ｏ","Ｐ","Ｑ",
@@ -135,14 +133,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    profile = line_bot_api.get_profile(event.source.user_id)
-    if profile.display_name in shiritoris:
-        shiritori = shiritoris[profile.display_name]
+    user_id = event.source.user_id
+    try:
+        with open(f'{user_id}.pickle', 'rb') as f:
+            shiritori = pickle.load(f)
         shiritori.type_by_user(user_word=event.message.text)
-    else:
+    except FileNotFoundError:
         shiritori = Shiritori(user_word=event.message.text)
-        shiritoris[profile.display_name] = shiritori
-
 
     if shiritori.user_word == "":
         response_text = "あなた弱いのね。私の勝ち☆"
@@ -154,14 +151,11 @@ def handle_message(event):
         else:
             response_text = "や、やるじゃない...あなたの勝ちよ。"
 
-
-
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
         del shiritoris[profile.display_name]
 
-    for i in shiritoris.keys() :
-        response_text +=  i
-        response_text += ","
+    with open(f'{user_id}.pickle', 'wb') as f:
+        pickle.dump(shiritori, f)
 
     line_bot_api.reply_message(
         event.reply_token,
