@@ -152,9 +152,8 @@ def handle_message(event):
             response_text = "や、やるじゃない...あなたの勝ちよ。"
 
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
-        shiritori.used_words = []
-        user_id = None
-
+        os.remove(f)
+        
     with open(f'{user_id}.pickle', 'wb') as f:
         pickle.dump(shiritori, f)
 
