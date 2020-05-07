@@ -134,8 +134,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_id = event.source.user_id
+    path = f'{user_id}.pickle'
     try:
-        with open(f'{user_id}.pickle', 'rb') as f:
+        with open(path, 'rb') as f:
             shiritori = pickle.load(f)
         shiritori.type_by_user(user_word=event.message.text)
     except FileNotFoundError:
@@ -152,10 +153,10 @@ def handle_message(event):
             response_text = "や、やるじゃない...あなたの勝ちよ。"
 
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
-        os.remove(f)
-        
-    with open(f'{user_id}.pickle', 'wb') as f:
-        pickle.dump(shiritori, f)
+        os.remove(path)
+    else:
+        with open(path, 'wb') as f:
+            pickle.dump(shiritori, f)
 
     line_bot_api.reply_message(
         event.reply_token,
