@@ -154,6 +154,7 @@ def handle_message(event):
 
     if response_text in ["あなた弱いのね。私の勝ち☆", "や、やるじゃない...あなたの勝ちよ。"]:
         os.remove(path)
+        response_text += "winlose"
     else:
         with open(path, 'wb') as f:
             pickle.dump(shiritori, f)
